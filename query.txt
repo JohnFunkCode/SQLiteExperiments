@@ -12,3 +12,13 @@ select a.first_name
  select pets.pet_name from pets where pets.owner_id not in (select people.person_id from people) ;
 -- use group by to count the number of pets an owner has
 select people.first_name, count(pets.pet_name) from people,pets where people.person_id = pets.owner_id group by pets.owner_id ;
+-- Insert a person
+insert into people (first_name, last_name) values ( 'Katie','Brown');
+-- Insert a pet with a hard coded person id
+insert into pets (pet_name, owner_id) values ( 'Pickle',4 ) ;
+-- But how can we insert a person and a pet at one time use the last_insert_rowid() function and a transaction
+begin transaction ;
+insert into people (first_name, last_name) values ( 'Shane','Cornell');
+select last_insert_rowid();
+insert into pets (pet_name, owner_id) values ( 'Mr. Wiggles',last_insert_rowid() ) ;
+commit ;
