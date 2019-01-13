@@ -1,0 +1,14 @@
+--People and their dogs
+select people.first_name, pets.pet_name from people,pets where people.person_id = pets.owner_id ;
+-- People with no dogs
+select people.first_name from people where people.person_id not in (select pets.owner_id from pets);
+-- or
+select a.first_name
+ from people a 
+ left join pets b 
+ on (a.person_id = b.owner_id)
+ where b.owner_id is NULL ;
+-- Pets with no owner
+ select pets.pet_name from pets where pets.owner_id not in (select people.person_id from people) ;
+-- use group by to count the number of pets an owner has
+select people.first_name, count(pets.pet_name) from people,pets where people.person_id = pets.owner_id group by pets.owner_id ;
